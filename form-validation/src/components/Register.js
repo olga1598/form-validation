@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import "./Register.css";
+import { resetWarningCache } from 'prop-types';
 
 const validEmailRegex = 
   RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
@@ -7,10 +8,10 @@ const validEmailRegex =
 
 class Register extends Component {
     state = {
-        fullName: null,
-        email: null,
-        phone: null,
-        password: null,
+        fullName: "",
+        email: "",
+        phone: "",
+        password: "",
         errors: {
             fullName: "",
             email: "",
@@ -65,7 +66,14 @@ class Register extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         if(this.validateForm(this.state.errors)) {
-            console.info("Valid Form")
+            console.info("Valid Form");
+            alert("Thank you for the succesful registration " + "\n" + "\n" + "Your name: " + this.state.fullName + "\n" + "\n" + "Your email: " + this.state.email + "\n" + "\n"+ "Your phone number: " + this.state.phone);
+            this.setState({
+                fullName: "",
+                email: "",
+                phone: "",
+                password: ""
+            })
         } else {
             console.error("Invalid Form");
         }
@@ -73,6 +81,10 @@ class Register extends Component {
 
     render() {
         const {errors} = this.state;
+        // const isEnabled = this.state.fullName.length > 0 
+        //                 && this.state.email.length > 0 
+        //                 && this.state.phone.length > 0
+        //                 && this.state.password.length > 0
         return (
             <div className='wrapper'>
                 <h2>Simple react form-validation.</h2>
@@ -81,33 +93,33 @@ class Register extends Component {
                     <form onSubmit={this.handleSubmit} noValidate >
                         <div className='fullName'>
                             <label htmlFor="fullName">Full Name</label>
-                            <input type='text' name='fullName' onChange={this.handleChange} noValidate />
+                            <input type='text' value={this.state.fullName} name='fullName' onChange={this.handleChange} noValidate/>
                             {errors.fullName.length > 0 &&
                                 <span className="error">{errors.fullName}</span>}
                         </div>
                         <div className='email'>
                             <label htmlFor="email">Email</label>
-                            <input type='email' name='email' onChange={this.handleChange} noValidate />
+                            <input type='email' value={this.state.email} name='email' onChange={this.handleChange} noValidate />
                             {errors.email.length > 0 &&
                                 <span className="error">{errors.email}</span>}
                         </div>
                         <div className="phone">
                             <label htmlFor="phone">Phone Number:</label>
-                            <input type="text" name="phone" onChange={this.handleChange}   />
+                            <input type="text" value={this.state.phone} name="phone" onChange={this.handleChange}   />
                             {errors.phone.length > 0 &&
                                 <span className="error">{errors.phone}</span>}
                         </div>
                         <div className='password'>
-                            <label htmlFor="password">Password</label>
-                            <input type='password' name='password' onChange={this.handleChange} noValidate />
+                            <label htmlFor="password">Password*</label>
+                            <input type='password' value={this.state.password} name='password' onChange={this.handleChange} noValidate />
                             {errors.password.length > 0 &&
                                 <span className="error">{errors.password}</span>}
                         </div>
                         <div className='info'>
-                            <small>Password must be eight characters in length.</small>
+                            <small>*Password must be eight characters in length.</small>
                         </div>
                         <div className='submit'>
-                            <button>Create new account</button>
+                            <button type="submit" >Create new account</button>
                         </div>
                     </form>
                 </div>
